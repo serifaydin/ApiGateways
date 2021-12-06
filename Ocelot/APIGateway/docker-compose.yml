@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+  s_api_gateway: 
+	container_name: c_api_gateway
+	image: salihcantekin/apigateway
+	build:
+		context: .
+		dockerfile: APIGateway/Dockerfile
+	ports:
+	 - 80:80
+	networks: 
+	 - micro_net
+	 - int_net
+
+
+ s_contact_api:
+	container_name: c_contact_api
+	image: salihcantekin/contactapi
+	build: 
+		context: .
+		dockerfile: Services/ContactAPI/Contact.API/Dockerfile
+	ports:
+		- 9000:9000
+	networks:
+		- int_net
+
+ s_res_api:
+	container_name: c_res_api
+	image: salihcantekin/resapi
+	 build: 
+		context: .
+		dockerfile: Services/ReservationAPI/Reservation.API/Dockerfile
+	ports:
+		- 9001:9001
+	networks:
+			- int_net
