@@ -23,7 +23,7 @@ namespace MyOcelot.Services.ApiGateway.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var secret = "Thisismytestprivatekey";
+            var secret = "AshProgHelpSecretKey";
             var key = Encoding.ASCII.GetBytes(secret);
 
             services.AddAuthentication(option =>
@@ -36,10 +36,14 @@ namespace MyOcelot.Services.ApiGateway.Api
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    RequireExpirationTime = true,
+                    ValidIssuer = JWTModel.Issuer,
+                    ValidAudience = JWTModel.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTModel.Key))
                 };
             });
             services.AddControllers();
@@ -65,5 +69,12 @@ namespace MyOcelot.Services.ApiGateway.Api
                 endpoints.MapControllers();
             });
         }
+    }
+
+    public static class JWTModel
+    {
+        public static string Key = "AshProgHelpSecretKey";
+        public static string Issuer = "ACMS";
+        public static string Audience = "Arvato";
     }
 }
