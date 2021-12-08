@@ -11,12 +11,24 @@
       ],
       "UpstreamPathTemplate": "/api/weather",
       "UpstreamHttpMethod": [ "Get" ],
+      "RouteIsCaseSensitive": true,
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes":[]
+        "AllowedScopes": []
       }
+    },
+    {
+        "DownstreamPathTemplate": "/api/login",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+          {
+            "Host": "localhost",
+            "Port": 5002
+          }
+        ],
+        "UpstreamPathTemplate": "/api/login",
+        "UpstreamHttpMethod": [ "Get" ],
+        "RouteIsCaseSensitive": true
     }
-  ],
-  "GlobalConfiguration": {
-  }
+  ]
 }
