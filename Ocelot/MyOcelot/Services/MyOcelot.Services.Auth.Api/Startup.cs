@@ -73,7 +73,3 @@ namespace MyOcelot.Services.Auth.Api
         }
     }
 }
-
-
-//sabahtan yapıcam.
-//ClockSkew i notlarım arasına alıcam jwt repoda
