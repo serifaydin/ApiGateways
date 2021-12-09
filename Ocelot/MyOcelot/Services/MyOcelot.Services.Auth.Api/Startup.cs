@@ -28,23 +28,29 @@ namespace MyOcelot.Services.Auth.Api
 
             services.AddControllers();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.RequireHttpsMetadata = false;
+            var authenticationProviderKey = "MyOcelot";
 
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTModel.Key)),
-                    ValidateIssuer = true,
-                    ValidIssuer = JWTModel.Issuer,
-                    ValidateAudience = true,
-                    ValidAudience = JWTModel.Audience,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero, //Verilen sürede token sonlanır. eğer Zero olarak verilmez ise default da 5 dakikadır. Jetonunuzun süresinin tam zamanında bitmesini istiyorsanız; ClockSkew'i aşağıdaki gibi sıfıra ayarlamanız gerekir,
-                    RequireExpirationTime = true
-                };
-            });
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = authenticationProviderKey;
+                option.DefaultChallengeScheme = authenticationProviderKey;
+            }).AddJwtBearer(authenticationProviderKey, options =>
+             {
+                 options.RequireHttpsMetadata = false;
+
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTModel.Key)),
+                     ValidateIssuer = true,
+                     ValidIssuer = JWTModel.Issuer,
+                     ValidateAudience = true,
+                     ValidAudience = JWTModel.Audience,
+                     ValidateLifetime = true,
+                     ClockSkew = TimeSpan.Zero, //Verilen sürede token sonlanır. eğer Zero olarak verilmez ise default da 5 dakikadır. Jetonunuzun süresinin tam zamanında bitmesini istiyorsanız; ClockSkew'i aşağıdaki gibi sıfıra ayarlamanız gerekir,
+                     RequireExpirationTime = true
+                 };
+             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,5 +76,4 @@ namespace MyOcelot.Services.Auth.Api
 
 
 //sabahtan yapıcam.
-//provider key olayını not olarak alıcam.
 //ClockSkew i notlarım arasına alıcam jwt repoda

@@ -24,23 +24,31 @@ namespace MyOcelot.Services.Weather.Api
         {
             services.AddControllers();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTModel.Key)),
-                        ValidateIssuer = true,
-                        ValidIssuer = JWTModel.Issuer,
-                        ValidateAudience = true,
-                        ValidAudience = JWTModel.Audience,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero,
-                        RequireExpirationTime = true
-                    };
-                });
+            var authenticationProviderKey = "MyOcelot";
+
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = authenticationProviderKey;
+                option.DefaultChallengeScheme = authenticationProviderKey;
+            })
+                .AddJwtBearer(authenticationProviderKey, options =>
+                 {
+                     options.RequireHttpsMetadata = false;
+                     options.SaveToken = true;
+
+                     options.TokenValidationParameters = new TokenValidationParameters
+                     {
+                         ValidateIssuerSigningKey = true,
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTModel.Key)),
+                         ValidateIssuer = true,
+                         ValidIssuer = JWTModel.Issuer,
+                         ValidateAudience = true,
+                         ValidAudience = JWTModel.Audience,
+                         ValidateLifetime = true,
+                         ClockSkew = TimeSpan.Zero,
+                         RequireExpirationTime = true
+                     };
+                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

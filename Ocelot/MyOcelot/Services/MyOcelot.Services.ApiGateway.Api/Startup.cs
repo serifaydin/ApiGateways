@@ -25,7 +25,7 @@ namespace MyOcelot.Services.ApiGateway.Api
         {
             services.AddControllers();
 
-            //var authenticationProviderKey = "MyOcelot";
+            var authenticationProviderKey = "MyOcelot";
 
             Action<JwtBearerOptions> options = o =>
             {
@@ -47,9 +47,10 @@ namespace MyOcelot.Services.ApiGateway.Api
 
             services.AddAuthentication(option =>
             {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options);
+                option.DefaultAuthenticateScheme = authenticationProviderKey;
+                option.DefaultChallengeScheme = authenticationProviderKey;
+
+            }).AddJwtBearer(authenticationProviderKey, options);
 
             services.AddOcelot();
         }
