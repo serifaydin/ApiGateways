@@ -1,4 +1,4 @@
-{
+﻿{
   "Routes": [
     {
       "DownstreamPathTemplate": "/weatherforecast",
@@ -15,20 +15,35 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "MyOcelot",
         "AllowedScopes": []
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "6s",
+        "PeriodTimespan": 1,
+        "Limit": 1
       }
     },
     {
-        "DownstreamPathTemplate": "/api/login",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": 5002
-          }
-        ],
-        "UpstreamPathTemplate": "/api/login",
-        "UpstreamHttpMethod": [ "Get" ],
-        "RouteIsCaseSensitive": true
+      "DownstreamPathTemplate": "/api/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/api/login",
+      "UpstreamHttpMethod": [ "Get" ],
+      "RouteIsCaseSensitive": true
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": true,
+      "QuotaExceededMessage": "API çağrıları kotası aşıldı! Sistemi fazla yoramazsınız !",
+      "HttpStatusCode": 999,
+      "ClientIdHeader": "Test"
+    }
+  }
 }
