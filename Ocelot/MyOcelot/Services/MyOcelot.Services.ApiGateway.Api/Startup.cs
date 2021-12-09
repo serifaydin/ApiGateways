@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System;
@@ -52,7 +53,7 @@ namespace MyOcelot.Services.ApiGateway.Api
 
             }).AddJwtBearer(authenticationProviderKey, options);
 
-            services.AddOcelot();
+            services.AddOcelot().AddCacheManager(settings => settings.WithDictionaryHandle());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

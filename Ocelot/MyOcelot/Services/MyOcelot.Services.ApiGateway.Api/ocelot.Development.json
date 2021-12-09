@@ -22,6 +22,10 @@
         "Period": "6s",
         "PeriodTimespan": 1,
         "Limit": 1
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "somename"
       }
     },
     {
